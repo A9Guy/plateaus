@@ -1,0 +1,28 @@
+
+{
+  "name": "PLATEAUS - Your Premier Marketplace",
+  "short_name": "PLATEAUS",
+  "description": "Shop quality products from trusted sellers across Nigeria. Electronics, Fashion, Beauty, Home essentials and more.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/lovable-uploads/79bae75a-1e2d-4cdb-b7a1-32c8c5106ee4.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/lovable-uploads/79bae75a-1e2d-4cdb-b7a1-32c8c5106ee4.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "marketplace", "ecommerce"],
+  "lang": "en",
+  "dir": "ltr"
+}

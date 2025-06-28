@@ -8,19 +8,62 @@
     <meta name="description" content="Shop quality products from trusted sellers across Nigeria. Electronics, Fashion, Beauty, Home essentials and more." />
     <meta name="author" content="PLATEAUS Ltd" />
     <link rel="icon" href="/lovable-uploads/79bae75a-1e2d-4cdb-b7a1-32c8c5106ee4.png" type="image/png">
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="PLATEAUS">
+    <link rel="apple-touch-icon" href="/lovable-uploads/79bae75a-1e2d-4cdb-b7a1-32c8c5106ee4.png">
 
+    <!-- SEO Meta Tags -->
     <meta property="og:title" content="PLATEAUS - Your Premier Marketplace" />
     <meta property="og:description" content="Shop quality products from trusted sellers across Nigeria. Electronics, Fashion, Beauty, Home essentials and more." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/lovable-uploads/79bae75a-1e2d-4cdb-b7a1-32c8c5106ee4.png" />
+    <meta property="og:url" content="https://plateaus.lovable.app" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@plateaus" />
+    <meta name="twitter:title" content="PLATEAUS - Your Premier Marketplace" />
+    <meta name="twitter:description" content="Shop quality products from trusted sellers across Nigeria. Electronics, Fashion, Beauty, Home essentials and more." />
     <meta name="twitter:image" content="/lovable-uploads/79bae75a-1e2d-4cdb-b7a1-32c8c5106ee4.png" />
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "PLATEAUS",
+      "url": "https://plateaus.lovable.app",
+      "description": "Your premier marketplace for quality products from trusted sellers across Nigeria",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://plateaus.lovable.app/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
