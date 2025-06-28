@@ -52,7 +52,7 @@ interface QAItem {
 }
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
   const [product, setProduct] = useState<Product | null>(null);
@@ -73,6 +73,8 @@ const ProductDetail = () => {
   }, [id]);
 
   const fetchProduct = async () => {
+    if (!id) return;
+    
     const { data, error } = await supabase
       .from('products')
       .select(`
@@ -92,6 +94,8 @@ const ProductDetail = () => {
   };
 
   const fetchReviews = async () => {
+    if (!id) return;
+    
     const { data } = await supabase
       .from('reviews')
       .select(`
@@ -106,6 +110,8 @@ const ProductDetail = () => {
   };
 
   const fetchQA = async () => {
+    if (!id) return;
+    
     const { data } = await supabase
       .from('product_qa')
       .select(`
