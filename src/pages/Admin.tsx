@@ -104,7 +104,7 @@ const Admin = () => {
     setLoading(false);
   };
 
-  const updateReviewStatus = async (reviewId: string, status: string) => {
+  const updateReviewStatus = async (reviewId: string, status: 'approved' | 'flagged' | 'rejected') => {
     const { error } = await supabase
       .from('reviews')
       .update({ status })
@@ -120,7 +120,7 @@ const Admin = () => {
     fetchStats();
   };
 
-  const updateQAStatus = async (qaId: string, status: string) => {
+  const updateQAStatus = async (qaId: string, status: 'approved' | 'rejected') => {
     const { error } = await supabase
       .from('product_qa')
       .update({ status })

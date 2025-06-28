@@ -110,24 +110,29 @@ const ProductDetail = () => {
       .from('product_qa')
       .select(`
         *,
-        customer:profiles (full_name)
+        customer:profiles!product_qa_customer_id_fkey (full_name)
       `)
       .eq('product_id', id)
       .eq('status', 'approved')
       .order('created_at', { ascending: false });
 
-    setQAItems(data || []);
+    if (data) {
+      const validQAItems = data.filter(item => item.customer && typeof item.customer === 'object' && 'full_name' in item.customer);
+      setQAItems(validQAItems as QAItem[]);
+    }
     setLoading(false);
   };
 
   const trackView = async () => {
-    if (user) {
+    if (user && id) {
       await supabase
         .from('recently_viewed')
         .upsert({ user_id: user.id, product_id: id });
     }
 
-    await supabase.rpc('increment_product_views', { product_id: id });
+    if (id) {
+      await supabase.rpc('increment_product_views', { product_id: id });
+    }
   };
 
   const submitReview = async () => {
@@ -135,6 +140,8 @@ const ProductDetail = () => {
       toast.error('Please login to submit a review');
       return;
     }
+
+    if (!id) return;
 
     const { error } = await supabase
       .from('reviews')
@@ -160,12 +167,14 @@ const ProductDetail = () => {
       return;
     }
 
+    if (!id || !newQuestion.trim()) return;
+
     const { error } = await supabase
       .from('product_qa')
       .insert({
         product_id: id,
         customer_id: user.id,
-        question: newQuestion,
+        question: newQuestion.trim(),
       });
 
     if (error) {
