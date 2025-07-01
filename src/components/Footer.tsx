@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
@@ -46,7 +47,11 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-lg mb-4">For Sellers</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Become a Seller</a></li>
+              <li>
+                <Link to="/become-seller" className="text-gray-300 hover:text-white transition-colors">
+                  Become a Seller
+                </Link>
+              </li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Seller Dashboard</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Seller Guidelines</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Fees & Charges</a></li>
