@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { useCart } from '@/hooks/useCart';
 import { toast } from 'sonner';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -55,6 +56,7 @@ const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { addToCart } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [qaItems, setQAItems] = useState<QAItem[]>([]);
@@ -142,8 +144,11 @@ const ProductDetail = () => {
     }
 
     if (id) {
-      // Use RPC function to increment views
-      await supabase.rpc('increment_product_views', { product_id: id });
+      // Update views count directly with SQL
+      await supabase
+        .from('products')
+        .update({ views_count: supabase.sql`views_count + 1` })
+        .eq('id', id);
     }
   };
 
@@ -196,6 +201,18 @@ const ProductDetail = () => {
 
     toast.success('Question submitted');
     setNewQuestion('');
+  };
+
+  const handleAddToCart = () => {
+    if (!product) return;
+    
+    addToCart({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images[0] || '/placeholder.svg',
+      storeName: product.store.store_name
+    });
   };
 
   if (loading) {
@@ -286,7 +303,10 @@ const ProductDetail = () => {
             </div>
 
             <div className="space-y-4">
-              <Button className="w-full bg-black hover:bg-gray-800 text-white py-3">
+              <Button 
+                className="w-full bg-black hover:bg-gray-800 text-white py-3"
+                onClick={handleAddToCart}
+              >
                 <ShoppingCart className="h-5 w-5 mr-2" />
                 Add to Cart
               </Button>
