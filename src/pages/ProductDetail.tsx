@@ -123,8 +123,13 @@ const ProductDetail = () => {
       .order('created_at', { ascending: false });
 
     if (data) {
-      const validQAItems = data.filter(item => item.customer && typeof item.customer === 'object' && 'full_name' in item.customer);
-      setQAItems(validQAItems as QAItem[]);
+      // Filter out items with invalid customer data
+      const validQAItems = data.filter(item => 
+        item.customer && 
+        typeof item.customer === 'object' && 
+        'full_name' in item.customer
+      ) as QAItem[];
+      setQAItems(validQAItems);
     }
     setLoading(false);
   };
@@ -137,6 +142,7 @@ const ProductDetail = () => {
     }
 
     if (id) {
+      // Use RPC function to increment views
       await supabase.rpc('increment_product_views', { product_id: id });
     }
   };

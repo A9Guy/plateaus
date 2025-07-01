@@ -6,12 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
+import { useCart } from '@/hooks/useCart';
 import CategoriesDropdown from './CategoriesDropdown';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { user, signOut } = useAuth();
+  const { getTotalItems } = useCart();
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -68,7 +70,7 @@ const Header = () => {
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
-            {user ? (
+            {user && (
               <>
                 <Button variant="ghost" size="sm" className="relative">
                   <Heart className="h-5 w-5" />
@@ -79,24 +81,32 @@ const Header = () => {
                     3
                   </Badge>
                 </Button>
-                <Button variant="ghost" size="sm" className="relative">
-                  <ShoppingCart className="h-5 w-5" />
-                  <Badge variant="destructive" className="absolute -right-1 -top-1 h-4 w-4 p-0 flex items-center justify-center text-xs">
-                    2
-                  </Badge>
-                </Button>
-                <div className="hidden md:flex items-center space-x-2">
-                  <Link to="/dashboard">
-                    <Button variant="ghost" size="sm">
-                      <User className="h-5 w-5 mr-2" />
-                      Dashboard
-                    </Button>
-                  </Link>
-                  <Button variant="ghost" size="sm" onClick={signOut}>
-                    Sign Out
-                  </Button>
-                </div>
               </>
+            )}
+            
+            <Link to="/cart">
+              <Button variant="ghost" size="sm" className="relative">
+                <ShoppingCart className="h-5 w-5" />
+                {getTotalItems() > 0 && (
+                  <Badge variant="destructive" className="absolute -right-1 -top-1 h-4 w-4 p-0 flex items-center justify-center text-xs">
+                    {getTotalItems()}
+                  </Badge>
+                )}
+              </Button>
+            </Link>
+
+            {user ? (
+              <div className="hidden md:flex items-center space-x-2">
+                <Link to="/dashboard">
+                  <Button variant="ghost" size="sm">
+                    <User className="h-5 w-5 mr-2" />
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button variant="ghost" size="sm" onClick={signOut}>
+                  Sign Out
+                </Button>
+              </div>
             ) : (
               <div className="hidden md:flex items-center space-x-2">
                 <Link to="/auth">
@@ -144,6 +154,9 @@ const Header = () => {
               <div className="space-y-2">
                 <Link to="/search" className="block py-2 text-gray-700">
                   Browse Products
+                </Link>
+                <Link to="/cart" className="block py-2 text-gray-700">
+                  Shopping Cart ({getTotalItems()})
                 </Link>
                 <Link to="/plateaus-engineering" className="block py-2">
                   <Button variant="outline" size="sm" className="w-full border-blue-600 text-blue-600">

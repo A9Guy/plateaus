@@ -5,6 +5,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Star, Eye, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/hooks/useCart';
+import { useNavigate } from 'react-router-dom';
 
 interface ProductCardProps {
   id: string;
@@ -21,6 +23,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
+  id,
   name,
   price,
   comparePrice,
@@ -32,14 +35,33 @@ const ProductCard: React.FC<ProductCardProps> = ({
   storeName,
   viewsCount
 }) => {
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
   const displayPrice = isFlashSale && flashSalePrice ? flashSalePrice : price;
   const hasDiscount = comparePrice && comparePrice > displayPrice;
   const discountPercentage = hasDiscount ? Math.round(((comparePrice - displayPrice) / comparePrice) * 100) : 0;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addToCart({
+      productId: id,
+      name,
+      price: displayPrice,
+      image: images[0] || '/placeholder.svg',
+      storeName
+    });
+  };
+
+  const handleCardClick = () => {
+    navigate(`/product/${id}`);
+  };
 
   return (
     <motion.div
       whileHover={{ y: -4, boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}
       transition={{ duration: 0.2 }}
+      onClick={handleCardClick}
+      className="cursor-pointer"
     >
       <Card className="overflow-hidden border-0 shadow-md bg-white">
         <div className="relative">
@@ -69,7 +91,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <h3 className="font-semibold text-sm line-clamp-2 text-gray-900">{name}</h3>
             
             <div className="flex items-center gap-2 text-xs text-gray-600">
-              <span>{storeName}</span>
+              <span className="font-medium text-blue-600">{storeName}</span>
               {rating > 0 && (
                 <>
                   <span>•</span>
@@ -93,7 +115,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
               )}
             </div>
             
-            <Button className="w-full mt-3 bg-black hover:bg-gray-800 text-white">
+            <Button 
+              className="w-full mt-3 bg-black hover:bg-gray-800 text-white"
+              onClick={handleAddToCart}
+            >
               <ShoppingCart className="h-4 w-4 mr-2" />
               Add to Cart
             </Button>
