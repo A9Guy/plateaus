@@ -143,11 +143,12 @@ const ProductDetail = () => {
         .upsert({ user_id: user.id, product_id: id });
     }
 
-    if (id) {
-      // Update views count directly with SQL
+    if (id && product) {
+      // Increment views count by getting current count and adding 1
+      const currentViews = product.views_count || 0;
       await supabase
         .from('products')
-        .update({ views_count: supabase.sql`views_count + 1` })
+        .update({ views_count: currentViews + 1 })
         .eq('id', id);
     }
   };
