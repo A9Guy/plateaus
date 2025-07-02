@@ -7,83 +7,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ProductCard from './ProductCard';
 
 const FeaturedProducts = () => {
-  // Mock featured products by category
+  // No dummy products - will be populated with real data
   const featuredProducts = {
-    electronics: [
-      {
-        id: '1',
-        name: 'Sony WH-1000XM4 Headphones',
-        price: 120000,
-        comparePrice: 150000,
-        images: ['/placeholder.svg'],
-        rating: 4.8,
-        reviewCount: 342,
-        isFlashSale: false,
-        storeName: 'AudioTech Pro',
-        viewsCount: 1876
-      },
-      {
-        id: '2',
-        name: 'Dell XPS 13 Laptop',
-        price: 650000,
-        images: ['/placeholder.svg'],
-        rating: 4.7,
-        reviewCount: 89,
-        isFlashSale: false,
-        storeName: 'CompuMart',
-        viewsCount: 934
-      }
-    ],
-    fashion: [
-      {
-        id: '3',
-        name: 'Designer Handbag - Leather',
-        price: 45000,
-        comparePrice: 60000,
-        images: ['/placeholder.svg'],
-        rating: 4.6,
-        reviewCount: 156,
-        isFlashSale: false,
-        storeName: 'Fashion Forward',
-        viewsCount: 678
-      },
-      {
-        id: '4',
-        name: 'Premium Polo Shirt',
-        price: 15000,
-        images: ['/placeholder.svg'],
-        rating: 4.5,
-        reviewCount: 203,
-        isFlashSale: false,
-        storeName: 'Style Central',
-        viewsCount: 445
-      }
-    ],
-    beauty: [
-      {
-        id: '5',
-        name: 'Skincare Bundle Set',
-        price: 25000,
-        comparePrice: 35000,
-        images: ['/placeholder.svg'],
-        rating: 4.9,
-        reviewCount: 287,
-        isFlashSale: false,
-        storeName: 'BeautyPro',
-        viewsCount: 1123
-      },
-      {
-        id: '6',
-        name: 'Premium Makeup Kit',
-        price: 40000,
-        images: ['/placeholder.svg'],
-        rating: 4.7,
-        reviewCount: 198,
-        isFlashSale: false,
-        storeName: 'Glam Studio',
-        viewsCount: 756
-      }
-    ]
+    electronics: [],
+    fashion: [],
+    beauty: []
   };
 
   return (
@@ -116,47 +44,65 @@ const FeaturedProducts = () => {
             </div>
 
             <TabsContent value="electronics" className="mt-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {featuredProducts.electronics.map((product, index) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                  >
-                    <ProductCard {...product} />
-                  </motion.div>
-                ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 min-h-[200px]">
+                {featuredProducts.electronics.length === 0 ? (
+                  <div className="col-span-full text-center py-12 text-muted-foreground">
+                    No electronics products available yet
+                  </div>
+                ) : (
+                  featuredProducts.electronics.map((product, index) => (
+                    <motion.div
+                      key={product.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                    >
+                      <ProductCard {...product} />
+                    </motion.div>
+                  ))
+                )}
               </div>
             </TabsContent>
 
             <TabsContent value="fashion" className="mt-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {featuredProducts.fashion.map((product, index) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                  >
-                    <ProductCard {...product} />
-                  </motion.div>
-                ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 min-h-[200px]">
+                {featuredProducts.fashion.length === 0 ? (
+                  <div className="col-span-full text-center py-12 text-muted-foreground">
+                    No fashion products available yet
+                  </div>
+                ) : (
+                  featuredProducts.fashion.map((product, index) => (
+                    <motion.div
+                      key={product.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                    >
+                      <ProductCard {...product} />
+                    </motion.div>
+                  ))
+                )}
               </div>
             </TabsContent>
 
             <TabsContent value="beauty" className="mt-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {featuredProducts.beauty.map((product, index) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                  >
-                    <ProductCard {...product} />
-                  </motion.div>
-                ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 min-h-[200px]">
+                {featuredProducts.beauty.length === 0 ? (
+                  <div className="col-span-full text-center py-12 text-muted-foreground">
+                    No beauty products available yet
+                  </div>
+                ) : (
+                  featuredProducts.beauty.map((product, index) => (
+                    <motion.div
+                      key={product.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                    >
+                      <ProductCard {...product} />
+                    </motion.div>
+                  ))
+                )}
               </div>
             </TabsContent>
           </Tabs>

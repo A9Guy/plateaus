@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import TopSlider from '../components/TopSlider';
 import Header from '../components/Header';
 import HeroSection from '../components/HeroSection';
 import CategoriesGrid from '../components/CategoriesGrid';
@@ -15,8 +16,9 @@ const Index = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-white"
+      className="min-h-screen bg-background"
     >
+      <TopSlider />
       <Header />
       <HeroSection />
       <CategoriesGrid />

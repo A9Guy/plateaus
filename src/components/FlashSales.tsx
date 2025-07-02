@@ -29,61 +29,8 @@ const FlashSales = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Mock flash sale products
-  const flashSaleProducts = [
-    {
-      id: '1',
-      name: 'iPhone 13 Pro Max - 128GB',
-      price: 450000,
-      comparePrice: 520000,
-      images: ['/placeholder.svg'],
-      rating: 4.8,
-      reviewCount: 124,
-      isFlashSale: true,
-      flashSalePrice: 450000,
-      storeName: 'TechHub Nigeria',
-      viewsCount: 1234
-    },
-    {
-      id: '2',
-      name: 'Samsung Galaxy Watch 5',
-      price: 85000,
-      comparePrice: 120000,
-      images: ['/placeholder.svg'],
-      rating: 4.6,
-      reviewCount: 87,
-      isFlashSale: true,
-      flashSalePrice: 85000,
-      storeName: 'Gadget World',
-      viewsCount: 892
-    },
-    {
-      id: '3',
-      name: 'Nike Air Max 270',
-      price: 35000,
-      comparePrice: 45000,
-      images: ['/placeholder.svg'],
-      rating: 4.7,
-      reviewCount: 203,
-      isFlashSale: true,
-      flashSalePrice: 35000,
-      storeName: 'Sneaker Haven',
-      viewsCount: 567
-    },
-    {
-      id: '4',
-      name: 'MacBook Air M2',
-      price: 850000,
-      comparePrice: 950000,
-      images: ['/placeholder.svg'],
-      rating: 4.9,
-      reviewCount: 156,
-      isFlashSale: true,
-      flashSalePrice: 850000,
-      storeName: 'Apple Store NG',
-      viewsCount: 2341
-    }
-  ];
+  // No dummy products - will be populated with real flash sale data
+  const flashSaleProducts = [];
 
   return (
     <section className="py-12 bg-gray-50">
@@ -116,18 +63,24 @@ const FlashSales = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 min-h-[200px]"
         >
-          {flashSaleProducts.map((product, index) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              <ProductCard {...product} />
-            </motion.div>
-          ))}
+          {flashSaleProducts.length === 0 ? (
+            <div className="col-span-full text-center py-12 text-muted-foreground">
+              No flash sale products available yet
+            </div>
+          ) : (
+            flashSaleProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+              >
+                <ProductCard {...product} />
+              </motion.div>
+            ))
+          )}
         </motion.div>
       </div>
     </section>

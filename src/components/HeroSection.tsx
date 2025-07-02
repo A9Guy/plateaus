@@ -19,12 +19,11 @@ const HeroSection = () => {
           >
             <div className="space-y-4">
               <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                Your Premier
+                PLATEAUS
                 <span className="block text-gray-300">Marketplace</span>
               </h1>
               <p className="text-xl text-gray-300 max-w-lg">
-                Shop quality products from trusted sellers across Nigeria. 
-                Electronics, Fashion, Beauty, Home essentials and more.
+                Discover quality products from verified sellers nationwide.
               </p>
             </div>
 
@@ -33,7 +32,12 @@ const HeroSection = () => {
                 Start Shopping
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white text-white hover:bg-white hover:text-black"
+                onClick={() => window.location.href = '/become-seller'}
+              >
                 Become a Seller
               </Button>
             </div>
