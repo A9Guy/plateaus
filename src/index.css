@@ -100,4 +100,23 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Smooth scroll behavior and consistent page loading */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Fix page transition scroll behavior */
+  .page-transition {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 }

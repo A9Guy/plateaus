@@ -298,19 +298,21 @@ const Checkout = () => {
                     <CardContent className="space-y-4">
                       <div className="space-y-4">
                         {items.map((item) => (
-                          <div key={item.id} className="flex items-center gap-4 p-4 border rounded-lg">
-                            <img
-                              src={item.image}
-                              alt={item.name}
-                              className="w-12 h-12 object-cover rounded"
-                            />
-                            <div className="flex-1">
-                              <h4 className="font-medium">{item.name}</h4>
-                              <p className="text-sm text-gray-600">{item.storeName}</p>
+                          <div key={item.id} className="flex items-center justify-between gap-4 p-4 border rounded-lg">
+                            <div className="flex items-center gap-4 flex-1">
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                className="w-12 h-12 object-cover rounded"
+                              />
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-medium truncate">{item.name}</h4>
+                                <p className="text-sm text-muted-foreground">{item.storeName}</p>
+                              </div>
                             </div>
-                            <div className="text-right">
+                            <div className="text-right flex-shrink-0">
                               <p className="font-medium">₦{(item.price * item.quantity).toLocaleString()}</p>
-                              <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                              <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                             </div>
                           </div>
                         ))}

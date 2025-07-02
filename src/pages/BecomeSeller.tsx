@@ -2,10 +2,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Store, User, Mail, Phone, MapPin, FileText, ArrowLeft } from 'lucide-react';
+import { Store, User, Mail, Phone, MapPin, FileText, ArrowLeft, Building, Home, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -24,7 +26,12 @@ const BecomeSeller = () => {
     businessPhone: '',
     businessAddress: '',
     businessType: '',
-    experience: ''
+    experience: '',
+    sellingLocation: '',
+    marketName: '',
+    shopNumber: '',
+    physicalAddress: '',
+    homeAddress: ''
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -221,6 +228,118 @@ const BecomeSeller = () => {
                     />
                   </div>
 
+                  {/* Selling Location Category */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-4">
+                      <MapPin className="h-4 w-4 inline mr-2" />
+                      Selling Location Category *
+                    </label>
+                    <RadioGroup
+                      value={formData.sellingLocation}
+                      onValueChange={(value) => setFormData(prev => ({ ...prev, sellingLocation: value }))}
+                      className="space-y-4"
+                    >
+                      <div className="flex items-start space-x-3 p-4 border rounded-lg">
+                        <RadioGroupItem value="public-market" id="public-market" className="mt-1" />
+                        <div className="flex-1">
+                          <Label htmlFor="public-market" className="flex items-center gap-2 font-medium cursor-pointer">
+                            <ShoppingBag className="h-4 w-4" />
+                            Public Market
+                          </Label>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Selling from a market stall or public marketplace
+                          </p>
+                          {formData.sellingLocation === 'public-market' && (
+                            <div className="mt-3 space-y-3">
+                              <div>
+                                <Label htmlFor="marketName" className="text-sm">Market Name *</Label>
+                                <Input
+                                  id="marketName"
+                                  name="marketName"
+                                  value={formData.marketName}
+                                  onChange={handleInputChange}
+                                  placeholder="e.g., Computer Village, Alaba Market"
+                                  required
+                                />
+                              </div>
+                              <div>
+                                <Label htmlFor="shopNumber" className="text-sm">Shop Number *</Label>
+                                <Input
+                                  id="shopNumber"
+                                  name="shopNumber"
+                                  value={formData.shopNumber}
+                                  onChange={handleInputChange}
+                                  placeholder="e.g., Shop 123, Block A"
+                                  required
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3 p-4 border rounded-lg">
+                        <RadioGroupItem value="single-shop" id="single-shop" className="mt-1" />
+                        <div className="flex-1">
+                          <Label htmlFor="single-shop" className="flex items-center gap-2 font-medium cursor-pointer">
+                            <Building className="h-4 w-4" />
+                            Single Holding Shop
+                          </Label>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Operating from a standalone retail location
+                          </p>
+                          {formData.sellingLocation === 'single-shop' && (
+                            <div className="mt-3">
+                              <Label htmlFor="physicalAddress" className="text-sm">Physical Address *</Label>
+                              <Textarea
+                                id="physicalAddress"
+                                name="physicalAddress"
+                                value={formData.physicalAddress}
+                                onChange={handleInputChange}
+                                placeholder="Enter your complete shop address (will be verified via Google Maps)"
+                                required
+                                rows={2}
+                              />
+                              <p className="text-xs text-gray-500 mt-1">
+                                Address will be validated using Google Maps verification
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3 p-4 border rounded-lg">
+                        <RadioGroupItem value="home-based" id="home-based" className="mt-1" />
+                        <div className="flex-1">
+                          <Label htmlFor="home-based" className="flex items-center gap-2 font-medium cursor-pointer">
+                            <Home className="h-4 w-4" />
+                            Selling from Home
+                          </Label>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Home-based business operations
+                          </p>
+                          {formData.sellingLocation === 'home-based' && (
+                            <div className="mt-3">
+                              <Label htmlFor="homeAddress" className="text-sm">Home Address *</Label>
+                              <Textarea
+                                id="homeAddress"
+                                name="homeAddress"
+                                value={formData.homeAddress}
+                                onChange={handleInputChange}
+                                placeholder="Enter your home address (will be verified via Google Maps)"
+                                required
+                                rows={2}
+                              />
+                              <p className="text-xs text-gray-500 mt-1">
+                                Address will be validated using Google Maps verification
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </RadioGroup>
+                  </div>
+
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h4 className="font-semibold text-gray-900 mb-2">What happens next?</h4>
                     <ul className="text-sm text-gray-600 space-y-1">
@@ -233,8 +352,8 @@ const BecomeSeller = () => {
 
                   <Button
                     type="submit"
-                    className="w-full bg-black hover:bg-gray-800 text-white"
-                    disabled={loading}
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                    disabled={loading || !formData.sellingLocation}
                   >
                     {loading ? 'Submitting Application...' : 'Submit Application'}
                   </Button>
