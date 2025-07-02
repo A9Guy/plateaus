@@ -439,11 +439,16 @@ export type Database = {
       stores: {
         Row: {
           created_at: string | null
+          home_address: string | null
           id: string
           is_active: boolean | null
           is_verified: boolean | null
+          market_name: string | null
           merchant_id: string
+          physical_address: string | null
           rating: number | null
+          selling_location_type: string | null
+          shop_number: string | null
           store_banner_url: string | null
           store_description: string | null
           store_logo_url: string | null
@@ -453,11 +458,16 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
+          home_address?: string | null
           id?: string
           is_active?: boolean | null
           is_verified?: boolean | null
+          market_name?: string | null
           merchant_id: string
+          physical_address?: string | null
           rating?: number | null
+          selling_location_type?: string | null
+          shop_number?: string | null
           store_banner_url?: string | null
           store_description?: string | null
           store_logo_url?: string | null
@@ -467,11 +477,16 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
+          home_address?: string | null
           id?: string
           is_active?: boolean | null
           is_verified?: boolean | null
+          market_name?: string | null
           merchant_id?: string
+          physical_address?: string | null
           rating?: number | null
+          selling_location_type?: string | null
+          shop_number?: string | null
           store_banner_url?: string | null
           store_description?: string | null
           store_logo_url?: string | null

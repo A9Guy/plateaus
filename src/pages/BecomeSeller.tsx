@@ -54,16 +54,23 @@ const BecomeSeller = () => {
     setLoading(true);
 
     try {
-      // Create store entry
+      // Create store entry with location data
+      const storeData = {
+        store_name: formData.storeName,
+        store_description: formData.storeDescription,
+        merchant_id: user.id,
+        is_active: false, // Requires approval
+        is_verified: false,
+        selling_location_type: formData.sellingLocation,
+        market_name: formData.sellingLocation === 'public-market' ? formData.marketName : null,
+        shop_number: formData.sellingLocation === 'public-market' ? formData.shopNumber : null,
+        physical_address: formData.sellingLocation === 'single-shop' ? formData.physicalAddress : null,
+        home_address: formData.sellingLocation === 'home-based' ? formData.homeAddress : null,
+      };
+
       const { error } = await supabase
         .from('stores')
-        .insert({
-          store_name: formData.storeName,
-          store_description: formData.storeDescription,
-          merchant_id: user.id,
-          is_active: false, // Requires approval
-          is_verified: false
-        });
+        .insert(storeData);
 
       if (error) {
         throw error;
