@@ -36,6 +36,38 @@ export type Database = {
         }
         Relationships: []
       }
+      market_pricing: {
+        Row: {
+          current_price: number
+          id: string
+          last_updated: string | null
+          market_average_price: number | null
+          product_id: string
+        }
+        Insert: {
+          current_price: number
+          id?: string
+          last_updated?: string | null
+          market_average_price?: number | null
+          product_id: string
+        }
+        Update: {
+          current_price?: number
+          id?: string
+          last_updated?: string | null
+          market_average_price?: number | null
+          product_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "market_pricing_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       order_items: {
         Row: {
           created_at: string | null
@@ -201,8 +233,12 @@ export type Database = {
           id: string
           images: string[] | null
           is_flash_sale: boolean | null
+          is_locally_made: boolean | null
           name: string
+          origin_country: string | null
+          origin_state: string | null
           price: number
+          quality_standard: number | null
           seo_description: string | null
           seo_keywords: string | null
           seo_title: string | null
@@ -211,6 +247,7 @@ export type Database = {
           store_id: string
           updated_at: string | null
           views_count: number | null
+          weight: number | null
         }
         Insert: {
           allowed_states?: string[] | null
@@ -223,8 +260,12 @@ export type Database = {
           id?: string
           images?: string[] | null
           is_flash_sale?: boolean | null
+          is_locally_made?: boolean | null
           name: string
+          origin_country?: string | null
+          origin_state?: string | null
           price: number
+          quality_standard?: number | null
           seo_description?: string | null
           seo_keywords?: string | null
           seo_title?: string | null
@@ -233,6 +274,7 @@ export type Database = {
           store_id: string
           updated_at?: string | null
           views_count?: number | null
+          weight?: number | null
         }
         Update: {
           allowed_states?: string[] | null
@@ -245,8 +287,12 @@ export type Database = {
           id?: string
           images?: string[] | null
           is_flash_sale?: boolean | null
+          is_locally_made?: boolean | null
           name?: string
+          origin_country?: string | null
+          origin_state?: string | null
           price?: number
+          quality_standard?: number | null
           seo_description?: string | null
           seo_keywords?: string | null
           seo_title?: string | null
@@ -255,6 +301,7 @@ export type Database = {
           store_id?: string
           updated_at?: string | null
           views_count?: number | null
+          weight?: number | null
         }
         Relationships: [
           {
@@ -436,59 +483,141 @@ export type Database = {
           },
         ]
       }
+      seller_messages: {
+        Row: {
+          created_at: string
+          customer_id: string
+          id: string
+          is_read: boolean | null
+          message: string
+          product_id: string | null
+          seller_id: string
+          sender_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          id?: string
+          is_read?: boolean | null
+          message: string
+          product_id?: string | null
+          seller_id: string
+          sender_type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          product_id?: string | null
+          seller_id?: string
+          sender_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "seller_messages_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "seller_messages_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "seller_messages_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       stores: {
         Row: {
+          approval_status: string | null
+          company_name: string | null
           created_at: string | null
+          email: string | null
+          full_name: string | null
           home_address: string | null
           id: string
           is_active: boolean | null
           is_verified: boolean | null
           market_name: string | null
           merchant_id: string
+          office_address: string | null
+          password_set: boolean | null
+          phone_number: string | null
           physical_address: string | null
           rating: number | null
           selling_location_type: string | null
           shop_number: string | null
           store_banner_url: string | null
           store_description: string | null
+          store_font_color: string | null
           store_logo_url: string | null
           store_name: string
           total_sales: number | null
           updated_at: string | null
         }
         Insert: {
+          approval_status?: string | null
+          company_name?: string | null
           created_at?: string | null
+          email?: string | null
+          full_name?: string | null
           home_address?: string | null
           id?: string
           is_active?: boolean | null
           is_verified?: boolean | null
           market_name?: string | null
           merchant_id: string
+          office_address?: string | null
+          password_set?: boolean | null
+          phone_number?: string | null
           physical_address?: string | null
           rating?: number | null
           selling_location_type?: string | null
           shop_number?: string | null
           store_banner_url?: string | null
           store_description?: string | null
+          store_font_color?: string | null
           store_logo_url?: string | null
           store_name: string
           total_sales?: number | null
           updated_at?: string | null
         }
         Update: {
+          approval_status?: string | null
+          company_name?: string | null
           created_at?: string | null
+          email?: string | null
+          full_name?: string | null
           home_address?: string | null
           id?: string
           is_active?: boolean | null
           is_verified?: boolean | null
           market_name?: string | null
           merchant_id?: string
+          office_address?: string | null
+          password_set?: boolean | null
+          phone_number?: string | null
           physical_address?: string | null
           rating?: number | null
           selling_location_type?: string | null
           shop_number?: string | null
           store_banner_url?: string | null
           store_description?: string | null
+          store_font_color?: string | null
           store_logo_url?: string | null
           store_name?: string
           total_sales?: number | null

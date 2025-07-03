@@ -36,7 +36,7 @@ const HeroSection = () => {
                 size="lg" 
                 variant="outline" 
                 className="border-white text-white hover:bg-white hover:text-black"
-                onClick={() => window.location.href = '/become-seller'}
+                onClick={() => window.location.href = '/seller'}
               >
                 Become a Seller
               </Button>

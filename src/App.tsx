@@ -16,7 +16,7 @@ import Search from "./pages/Search";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import ResetPassword from "./pages/ResetPassword";
-import BecomeSeller from "./pages/BecomeSeller";
+import Seller from "./pages/Seller";
 import NotFound from "./pages/NotFound";
 import PlateausEngineering from "./components/PlateausEngineering";
 import PlateausFood from "./components/PlateausFood";
@@ -55,7 +55,7 @@ const App = () => {
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/become-seller" element={<BecomeSeller />} />
+              <Route path="/seller" element={<Seller />} />
               <Route path="/plateaus-engineering" element={<PlateausEngineering />} />
               <Route path="/plateaus-food" element={<PlateausFood />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

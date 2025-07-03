@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BarChart3, Users, Package, Store, Flag, CheckCircle, X, Eye } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -20,6 +20,7 @@ const Admin = () => {
     pendingReviews: 0,
   });
   const [stores, setStores] = useState([]);
+  const [pendingSellers, setPendingSellers] = useState([]);
   const [pendingReviews, setPendingReviews] = useState([]);
   const [pendingQA, setPendingQA] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,7 @@ const Admin = () => {
     checkAdminAccess();
     fetchStats();
     fetchStores();
+    fetchPendingSellers();
     fetchPendingReviews();
     fetchPendingQA();
   }, []);
@@ -70,9 +72,23 @@ const Admin = () => {
         *,
         merchant:profiles (full_name, email)
       `)
+      .eq('approval_status', 'approved')
       .order('created_at', { ascending: false });
 
     setStores(data || []);
+  };
+
+  const fetchPendingSellers = async () => {
+    const { data } = await supabase
+      .from('stores')
+      .select(`
+        *,
+        merchant:profiles (full_name, email)
+      `)
+      .eq('approval_status', 'pending')
+      .order('created_at', { ascending: false });
+
+    setPendingSellers(data || []);
   };
 
   const fetchPendingReviews = async () => {
@@ -150,6 +166,42 @@ const Admin = () => {
     fetchStores();
   };
 
+  const approveSellerApplication = async (storeId: string, sellerEmail: string) => {
+    const { error } = await supabase
+      .from('stores')
+      .update({ 
+        approval_status: 'approved',
+        is_active: true 
+      })
+      .eq('id', storeId);
+
+    if (error) {
+      toast.error('Failed to approve seller application');
+      return;
+    }
+
+    toast.success('Seller application approved');
+    fetchPendingSellers();
+    fetchStores();
+    fetchStats();
+  };
+
+  const rejectSellerApplication = async (storeId: string) => {
+    const { error } = await supabase
+      .from('stores')
+      .update({ approval_status: 'rejected' })
+      .eq('id', storeId);
+
+    if (error) {
+      toast.error('Failed to reject seller application');
+      return;
+    }
+
+    toast.success('Seller application rejected');
+    fetchPendingSellers();
+    fetchStats();
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -213,12 +265,89 @@ const Admin = () => {
             </Card>
           </div>
 
-          <Tabs defaultValue="stores" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
+          <Tabs defaultValue="pending-sellers" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="pending-sellers">Pending Sellers</TabsTrigger>
               <TabsTrigger value="stores">Stores</TabsTrigger>
               <TabsTrigger value="reviews">Reviews</TabsTrigger>
               <TabsTrigger value="qa">Q&A</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="pending-sellers">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Pending Seller Applications</CardTitle>
+                  <CardDescription>Review and approve new seller registrations</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {pendingSellers.length === 0 ? (
+                      <div className="text-center py-8 text-muted-foreground">
+                        No pending seller applications
+                      </div>
+                    ) : (
+                      pendingSellers.map((seller: any) => (
+                        <div key={seller.id} className="p-4 border rounded-lg">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-4 mb-3">
+                                <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
+                                  <Users className="h-6 w-6 text-muted-foreground" />
+                                </div>
+                                <div>
+                                  <h3 className="font-semibold">{seller.store_name}</h3>
+                                  <p className="text-sm text-muted-foreground">{seller.full_name}</p>
+                                </div>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                  <span className="font-medium">Email:</span> {seller.email}
+                                </div>
+                                <div>
+                                  <span className="font-medium">Phone:</span> {seller.phone_number}
+                                </div>
+                                <div className="md:col-span-2">
+                                  <span className="font-medium">Office Address:</span> {seller.office_address}
+                                </div>
+                                {seller.company_name && (
+                                  <div className="md:col-span-2">
+                                    <span className="font-medium">Company:</span> {seller.company_name}
+                                  </div>
+                                )}
+                              </div>
+                              
+                              <div className="mt-3 text-xs text-muted-foreground">
+                                Applied: {new Date(seller.created_at).toLocaleDateString()}
+                              </div>
+                            </div>
+                            
+                            <div className="flex flex-col gap-2 ml-4">
+                              <Button
+                                size="sm"
+                                onClick={() => approveSellerApplication(seller.id, seller.email)}
+                                className="bg-green-600 hover:bg-green-700"
+                              >
+                                <CheckCircle className="h-4 w-4 mr-1" />
+                                Approve
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => rejectSellerApplication(seller.id)}
+                              >
+                                <X className="h-4 w-4 mr-1" />
+                                Reject
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
             <TabsContent value="stores">
               <Card>
