@@ -24,7 +24,7 @@ const Admin = () => {
   const [pendingSellers, setPendingSellers] = useState([]);
   const [pendingReviews, setPendingReviews] = useState([]);
   const [pendingQA, setPendingQA] = useState([]);
-  const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     checkAdminAccess();
@@ -118,7 +118,6 @@ const Admin = () => {
       .order('created_at', { ascending: false });
 
     setPendingQA(data || []);
-    setLoading(false);
   };
 
   const updateReviewStatus = async (reviewId: string, status: 'approved' | 'flagged' | 'rejected') => {
