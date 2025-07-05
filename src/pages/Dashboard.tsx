@@ -132,10 +132,22 @@ const Dashboard = () => {
 
           <Tabs defaultValue="orders" className="space-y-6">
             <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="orders">My Orders</TabsTrigger>
-              <TabsTrigger value="profile">Profile</TabsTrigger>
-              <TabsTrigger value="wishlist">Wishlist</TabsTrigger>
-              <TabsTrigger value="recently-viewed">Recently Viewed</TabsTrigger>
+              <TabsTrigger value="orders" className="flex items-center gap-2">
+                <Package className="h-4 w-4" />
+                My Orders
+              </TabsTrigger>
+              <TabsTrigger value="profile" className="flex items-center gap-2">
+                <User className="h-4 w-4" />
+                Profile
+              </TabsTrigger>
+              <TabsTrigger value="wishlist" className="flex items-center gap-2">
+                <Heart className="h-4 w-4" />
+                Wishlist
+              </TabsTrigger>
+              <TabsTrigger value="recently-viewed" className="flex items-center gap-2">
+                <Eye className="h-4 w-4" />
+                Recently Viewed
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="orders" className="space-y-6">

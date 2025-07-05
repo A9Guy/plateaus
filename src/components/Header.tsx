@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, User, Menu, X, Heart, Bell } from 'lucide-react';
+import { Search, ShoppingCart, User, Menu, X, Heart, Bell, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -42,6 +42,22 @@ const Header = () => {
             <Link to="/search" className="text-gray-700 hover:text-black transition-colors">
               Browse
             </Link>
+            <div className="relative group">
+              <button className="text-gray-700 hover:text-black transition-colors flex items-center gap-1">
+                Seller
+                <ChevronDown className="h-4 w-4" />
+              </button>
+              <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="py-2">
+                  <Link to="/seller" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Sign Up as Seller
+                  </Link>
+                  <Link to="/seller" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Seller Login
+                  </Link>
+                </div>
+              </div>
+            </div>
             <Link to="/plateaus-engineering" className="text-gray-700 hover:text-black transition-colors">
               <Button variant="outline" size="sm" className="border-blue-600 text-blue-600 hover:bg-blue-50">
                 PLATEAUS Engineering
@@ -158,6 +174,15 @@ const Header = () => {
                 <Link to="/cart" className="block py-2 text-gray-700">
                   Shopping Cart ({getTotalItems()})
                 </Link>
+                <div className="py-2">
+                  <div className="text-sm font-medium text-gray-900 mb-2">Seller Options</div>
+                  <Link to="/seller" className="block px-2 py-1 text-sm text-gray-700">
+                    Sign Up as Seller
+                  </Link>
+                  <Link to="/seller" className="block px-2 py-1 text-sm text-gray-700">
+                    Seller Login
+                  </Link>
+                </div>
                 <Link to="/plateaus-engineering" className="block py-2">
                   <Button variant="outline" size="sm" className="w-full border-blue-600 text-blue-600">
                     PLATEAUS Engineering
